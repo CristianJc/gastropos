@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable, BehaviorSubject } from "rxjs";
 import { Payment } from "../../models/payment.model";
 import { Order } from "../../models/order.model";
@@ -11,6 +11,7 @@ import { environment } from "environments/environment";
 export class PaymentService {
   private apiUrl = `${environment.apiRender}`;
   private dailyEarnings = new BehaviorSubject<number>(0);
+  headers = new HttpHeaders().set("Content-Type", "application/json");
 
   constructor(private http: HttpClient) {
     this.calculateDailyEarnings();
@@ -25,10 +26,14 @@ export class PaymentService {
   }
 
   getCompletedOrders(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.apiUrl}/orders?status=delivered`);
+    return this.http.get<Order[]>(`${this.apiUrl}/orders?status=delivered`, {
+      headers: this.headers,
+    });
   }
   getCompletedOrdersNotInvoiced(): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.apiUrl}/orders/not-invoiced`);
+    return this.http.get<Order[]>(`${this.apiUrl}/orders/not-invoiced`, {
+      headers: this.headers,
+    });
   }
   getDailyEarnings(): Observable<number> {
     return this.dailyEarnings.asObservable();
