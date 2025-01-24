@@ -1,14 +1,15 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { Payment } from '../../models/payment.model';
-import { Order } from '../../models/order.model';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable, BehaviorSubject } from "rxjs";
+import { Payment } from "../../models/payment.model";
+import { Order } from "../../models/order.model";
+import { environment } from "environments/environment";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class PaymentService {
-  private apiUrl = 'http://localhost:3000';
+  private apiUrl = `${environment.apiRender}`;
   private dailyEarnings = new BehaviorSubject<number>(0);
 
   constructor(private http: HttpClient) {

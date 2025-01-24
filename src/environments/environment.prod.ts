@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apiRender: "https://gastropos-serv.onrender.com",
 };

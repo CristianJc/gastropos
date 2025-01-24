@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Inventory } from '../../models/inventory.model';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { Inventory } from "../../models/inventory.model";
+import { environment } from "environments/environment";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class InventoryService {
-  private apiUrl = 'http://localhost:3000/inventory';
+  private apiUrl = `${environment.apiRender}/inventory`;
 
   constructor(private http: HttpClient) {}
 
