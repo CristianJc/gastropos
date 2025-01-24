@@ -1,0 +1,289 @@
+.completed-orders-container {
+  padding: 20px;
+  margin-top: 80px;
+  .summary-card {
+    margin-bottom: 20px;
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      padding: 20px;
+
+      .summary-item {
+        text-align: center;
+        padding: 15px;
+        background-color: #f5f5f5;
+        border-radius: 8px;
+
+        h3 {
+          margin: 0;
+          color: #666;
+        }
+
+        p {
+          margin: 10px 0 0;
+          font-size: 24px;
+          font-weight: bold;
+          color: #2196f3;
+        }
+      }
+    }
+  }
+
+  .orders-list {
+    table {
+      width: 100%;
+    }
+
+    .mat-cell {
+      padding: 10px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+  }
+}
+
+.dashboard-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  height: 100vh;
+}
+
+.orders-list,
+.order-details {
+  flex: 1;
+  height: 100%;
+  overflow: auto;
+}
+
+.orders-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+}
+
+.order-card {
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.order-card:hover {
+  background-color: #eeeeee;
+}
+
+.order-card.selected {
+  background-color: #e0e0e0;
+}
+
+.order-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-number {
+  font-weight: 500;
+  margin: 0;
+}
+
+.table-number {
+  font-size: 0.9em;
+  color: #666;
+  margin: 4px 0 0 0;
+}
+
+.order-total {
+  font-weight: bold;
+  margin: 0;
+}
+
+.details-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.products-section {
+  background-color: #f5f5f5;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.products-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.product-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.payment-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.amounts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.amount {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 4px 0;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.bill-button {
+  width: 100%;
+  padding: 12px;
+}
+
+.no-order-message {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+}
+.product-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.product-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.product-name {
+  color: #333;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.quantity-btn {
+  padding: 0.25rem 0.75rem;
+  border: none;
+  background: none;
+  color: #666;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.quantity-btn:hover {
+  background-color: #f5f5f5;
+}
+
+.quantity-btn:first-child {
+  border-right: 1px solid #ddd;
+}
+
+.quantity-btn:last-child {
+  border-left: 1px solid #ddd;
+}
+
+.quantity {
+  padding: 0.25rem 1rem;
+  min-width: 40px;
+  text-align: center;
+}
+
+.price-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.price {
+  color: #333;
+}
+
+.delete-btn {
+  border: none;
+  background: none;
+  color: #999;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.delete-btn:hover {
+  color: #666;
+}
+.products-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.product-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.product-name {
+  margin-right: auto;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.price-section {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1;
+}
+
+.quantity-btn {
+  margin: 0 5px;
+}
+
+.price {
+  margin-right: 10px;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}

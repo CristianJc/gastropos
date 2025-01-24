@@ -1,0 +1,63 @@
+<div class="order-detail-container" *ngIf="order">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                Order Details #{{order.id}}
+            </mat-card-title>
+            <mat-card-subtitle>
+                Table {{order.table_number}} - {{order.status | titlecase}}
+            </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="items-container">
+                <mat-list>
+                    <mat-list-item *ngFor="let item of order.orderItems">
+                        <div class="item-row" *ngIf="editingItem?.id !== item.id">
+                            <span>{{item.product_name}}</span>
+                            <span>x{{item.quantity}}</span>
+                            <span>${{item.price * item.quantity}}</span>
+                            <div class="item-actions">
+                                <button mat-icon-button (click)="editingItem = item">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button (click)="deleteItem(item.id!)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="item-edit" *ngIf="editingItem?.id === item.id">
+                            <mat-form-field>
+                                <input matInput type="number" [(ngModel)]="editingItem!.quantity"
+                                    placeholder="Quantity">
+                            </mat-form-field>
+                            <mat-form-field>
+                                <input matInput [(ngModel)]="editingItem!.notes" placeholder="Notes">
+                            </mat-form-field>
+                            <div class="edit-actions">
+                                <button mat-button (click)="updateItem(editingItem)">
+                                    Save
+                                </button>
+                                <button mat-button (click)="editingItem = null">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </mat-list-item>
+                </mat-list>
+            </div>
+
+            <div class="order-summary">
+                <p class="total">Total: ${{order.total_amount}}</p>
+                <p>Created at: {{order.created_at | date:'medium'}}</p>
+            </div>
+        </mat-card-content>
+
+        <mat-card-actions>
+            <button mat-button routerLink="/orders">
+                Back to Orders
+            </button>
+        </mat-card-actions>
+    </mat-card>
+</div>

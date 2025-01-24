@@ -1,0 +1,53 @@
+<div class="order-list-container">
+    <div class="filters">
+        <mat-form-field>
+            <mat-label>Filter by Status</mat-label>
+            <mat-select [(ngModel)]="selectedStatus" (selectionChange)="loadOrders()">
+                <mat-option value="">All</mat-option>
+                <mat-option *ngFor="let status of statusOptions" [value]="status">
+                    {{status | titlecase}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="orders-grid">
+        <mat-card *ngFor="let order of orders" class="order-card">
+            <mat-card-header>
+                <mat-card-title>
+                    Order #{{order.id}} - Table {{order.table_number}}
+                </mat-card-title>
+                <mat-card-subtitle>
+                    Status: {{order.status | titlecase}}
+                </mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+                <div class="items-list">
+                    <div *ngFor="let item of order.orderItems" class="item">
+                        <span>{{item.product_name}} x{{item.quantity}}</span>
+                        <span>${{item.price * item.quantity}}</span>
+                    </div>
+                </div>
+                <div class="total">
+                    Total: ${{order.total_amount}}
+                </div>
+            </mat-card-content>
+
+            <mat-card-actions>
+                <button mat-button [routerLink]="['/orders', order.id]">
+                    VIEW DETAILS
+                </button>
+                <button mat-button *ngIf="order.status !== 'delivered'" [matMenuTriggerFor]="statusMenu">
+                    UPDATE STATUS
+                </button>
+                <mat-menu #statusMenu="matMenu">
+                    <button mat-menu-item *ngFor="let status of statusOptions"
+                        (click)="updateOrderStatus(order, status)" [disabled]="order.status === status">
+                        {{status | titlecase}}
+                    </button>
+                </mat-menu>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>

@@ -1,0 +1,80 @@
+<!-- src/app/components/inventory-list/inventory-list.component.html -->
+<div class="container mt-4">
+    <h2>Inventario</h2>
+
+    <!-- Alertas de stock bajo -->
+    <div *ngIf="alerts.length > 0" class="alert alert-warning">
+        <h4 class="alert-heading">¡Alertas de Stock Bajo!</h4>
+        <ul class="mb-0">
+            <li *ngFor="let alert of alerts">
+                {{ alert.product?.name }} - Cantidad actual: {{ alert.quantity }}
+                (Mínimo requerido: {{ alert.min_stock }})
+            </li>
+        </ul>
+    </div>
+
+    <div *ngIf="loading" class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+    </div>
+
+    <div *ngIf="error" class="alert alert-danger">
+        {{ error }}
+    </div>
+
+    <div class="main-content container">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="card card-plain">
+                        <div class="card-header card-header-info">
+                            <h4 class="card-title mt-0"> Lista de Productos</h4>
+                            <p class="card-category"> </p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="">
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Unidad</th>
+                                        <th>Stock Mínimo</th>
+                                        <th>Última Actualización</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of inventoryItems">
+                                            <td>{{ item.product_name }}</td>
+                                            <td>{{ item.quantity }}</td>
+                                            <td>{{ item.unit }}</td>
+                                            <td>{{ item.min_stock }}</td>
+                                            <td>{{ item.last_updated | date:'short' }}</td>
+                                            <td>
+                                                <span
+                                                    [class]="item.quantity <= item.min_stock ? 'badge bg-danger' : 'badge bg-success'">
+                                                    {{ item.quantity <= item.min_stock ? 'Stock Bajo' : 'OK' }} </span>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary me-2"
+                                                    (click)="openUpdateModal(item)">
+                                                    Actualizar
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Actualización -->
+    <app-inventory-update-modal [show]="showUpdateModal" [inventoryItem]="selectedItem"
+        (closeModal)="closeUpdateModal()" (inventoryUpdated)="onInventoryUpdated()"></app-inventory-update-modal>
+</div>

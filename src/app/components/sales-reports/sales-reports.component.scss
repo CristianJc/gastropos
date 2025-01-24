@@ -1,0 +1,52 @@
+/* sales-reports.component.css */
+:host {
+  display: block;
+  min-height: 100vh;
+  background-color: #f9fafb;
+}
+
+.table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.sales {
+  margin-top: 80px;
+}
+/* Estilos adicionales para hacer las gráficas más responsivas */
+canvas {
+  max-height: 400px;
+  width: 100% !important;
+}
+
+/* Mejoras visuales para los inputs y selects */
+input[type="date"],
+select {
+  appearance: none;
+  background-color: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+}
+
+input[type="date"]:focus,
+select:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Mejoras para la tabla en dispositivos móviles */
+@media (max-width: 640px) {
+  .table-container {
+    margin: 0 -1rem;
+  }
+
+  table {
+    font-size: 0.875rem;
+  }
+
+  th,
+  td {
+    padding: 0.5rem;
+  }
+}

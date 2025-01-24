@@ -1,0 +1,61 @@
+<div class="modal" [class.show]="show" [style.display]="show ? 'block' : 'none'" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Actualizar Inventario</h5>
+                <button type="button" class="btn-close" (click)="close()"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="updateForm" (ngSubmit)="onSubmit()">
+                    <div class="mb-3">
+                        <label class="form-label">Producto</label>
+                        <input type="text" class="form-control" [value]="inventoryItem?.product?.name" readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="quantity" class="form-label">Nueva Cantidad</label>
+                        <input type="number" class="form-control" id="quantity" formControlName="quantity"
+                            [ngClass]="{'is-invalid': submitted && updateForm.get('quantity')?.errors}">
+                        <div class="invalid-feedback"
+                            *ngIf="submitted && updateForm.get('quantity')?.errors?.['required']">
+                            La cantidad es requerida
+                        </div>
+                        <div class="invalid-feedback" *ngIf="submitted && updateForm.get('quantity')?.errors?.['min']">
+                            La cantidad debe ser mayor a 0
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="reason" class="form-label">Razón del Ajuste</label>
+                        <select class="form-select" id="reason" formControlName="reason"
+                            [ngClass]="{'is-invalid': submitted && updateForm.get('reason')?.errors}">
+                            <option value="">Seleccionar razón</option>
+                            <option value="restock">Reposición de stock</option>
+                            <option value="damage">Producto dañado</option>
+                            <option value="correction">Corrección de inventario</option>
+                            <option value="loss">Pérdida</option>
+                            <option value="other">Otro</option>
+                        </select>
+                        <div class="invalid-feedback"
+                            *ngIf="submitted && updateForm.get('reason')?.errors?.['required']">
+                            Debe seleccionar una razón
+                        </div>
+                    </div>
+
+                    <div *ngIf="error" class="alert alert-danger">
+                        {{ error }}
+                    </div>
+
+                    <div *ngIf="success" class="alert alert-success">
+                        {{ success }}
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="close()">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

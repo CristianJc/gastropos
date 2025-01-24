@@ -1,0 +1,69 @@
+<div class="container mt-4">
+    <h2>Agregar al Inventario</h2>
+
+    <form [formGroup]="inventoryForm" (ngSubmit)="onSubmit()" class="mt-4">
+        <div class="mb-3">
+            <label for="product_id" class="form-label">Producto</label>
+            <select class="form-control" data-live-search="true" id="product_id" formControlName="product_id"
+                [ngClass]="{'is-invalid': submitted && inventoryForm.get('product_id')?.errors}">
+                <option value="">Seleccionar producto</option>
+                <option *ngFor="let product of products" [value]="product.id">
+                    {{ product.name }}
+                </option>
+            </select>
+            <div class="invalid-feedback" *ngIf="submitted && inventoryForm.get('product_id')?.errors?.['required']">
+                Debe seleccionar un producto
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="quantity" class="form-label">Cantidad</label>
+            <input type="number" class="form-control" id="quantity" formControlName="quantity"
+                [ngClass]="{'is-invalid': submitted && inventoryForm.get('quantity')?.errors}">
+            <div class="invalid-feedback" *ngIf="submitted && inventoryForm.get('quantity')?.errors?.['required']">
+                La cantidad es requerida
+            </div>
+            <div class="invalid-feedback" *ngIf="submitted && inventoryForm.get('quantity')?.errors?.['min']">
+                La cantidad debe ser mayor a 0
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="unit" class="form-label">Unidad</label>
+            <select class="form-control" id="unit" formControlName="unit"
+                [ngClass]="{'is-invalid': submitted && inventoryForm.get('unit')?.errors}">
+                <option value="">Seleccionar unidad</option>
+                <option value="unidades">Unidades</option>
+                <option value="kg">Kilogramos</option>
+                <option value="l">Litros</option>
+                <option value="g">Gramos</option>
+                <option value="ml">Mililitros</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="submitted && inventoryForm.get('unit')?.errors?.['required']">
+                La unidad es requerida
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="min_stock" class="form-label">Stock Mínimo</label>
+            <input type="number" class="form-control" id="min_stock" formControlName="min_stock"
+                [ngClass]="{'is-invalid': submitted && inventoryForm.get('min_stock')?.errors}">
+            <div class="invalid-feedback" *ngIf="submitted && inventoryForm.get('min_stock')?.errors?.['required']">
+                El stock mínimo es requerido
+            </div>
+            <div class="invalid-feedback" *ngIf="submitted && inventoryForm.get('min_stock')?.errors?.['min']">
+                El stock mínimo debe ser mayor a 0
+            </div>
+        </div>
+
+        <div *ngIf="error" class="alert alert-danger">
+            {{ error }}
+        </div>
+
+        <div *ngIf="success" class="alert alert-success">
+            {{ success }}
+        </div>
+
+        <button type="submit" class="btn btn-primary">Agregar al Inventario</button>
+    </form>
+</div>

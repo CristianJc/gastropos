@@ -1,0 +1,152 @@
+<div class="container-fluid mt-4">
+    <h2>Gestión de Órdenes</h2>
+
+    <div *ngIf="error" class="alert alert-danger">
+        {{ error }}
+    </div>
+
+    <div *ngIf="loading" class="text-center">
+        <mat-spinner diameter="50"></mat-spinner>
+    </div>
+
+    <div class="row" *ngIf="!loading">
+        <!-- Pending Orders -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-warning text-white">
+                    <h3>Pendientes ({{ orders.pending.length }})</h3>
+                </div>
+                <div class="card-body orders-column">
+                    <div *ngFor="let order of orders.pending" class="order-card mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Mesa {{ order.table_id }}</h5>
+                                <p class="card-text">
+                                    <small>Creada: {{ formatDate(order.created_at!) }}</small>
+                                </p>
+
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Cant.</th>
+                                            <th scope="col">Prod.</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of order.orderItems">
+                                            <th scope="row">{{ item.quantity }} <br>
+                                                <p>{{ item.price * item.quantity | currency }}</p>
+                                            </th>
+                                            <td>{{ item.product_name }}</td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <!-- <div class="order-items">
+                                    <ul class="list-unstyled">
+                                        <li >
+                                         
+                                            ({{ item.price * item.quantity | currency }})
+                                        </li>
+                                    </ul>
+                                </div> -->
+                                <p class="total">Total: ${{ calculateTotal(order) }}</p>
+                                <button class="btn btn-primary" (click)="updateStatus(order, 'preparing')">
+                                    Preparar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Preparing Orders -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h3>En Preparación ({{ orders.preparing.length }})</h3>
+                </div>
+                <div class="card-body orders-column">
+                    <div *ngFor="let order of orders.preparing" class="order-card mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Mesa {{ order.table_id }}</h5>
+                                <p class="card-text">
+                                    <small>Creada: {{ formatDate(order.created_at!) }}</small>
+                                </p>
+
+
+                                <!-- <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Cant.</th>
+                                            <th scope="col">Prod.</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of order.orderItems">
+                                            <th scope="row">{{ item.quantity }}</th>
+                                            <td>{{ item.product_name }} <br>
+                                                <p>{{ item.price * item.quantity | currency }}</p>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table> -->
+                                <!-- <div class="order-items">
+                                    <ul class="list-unstyled">
+                                        <li *ngFor="let item of order.orderItems">
+                                            {{ item.quantity }}x {{ item.product_name }}
+                                        </li>
+                                    </ul>
+                                </div> -->
+                                <button class="btn btn-success" (click)="updateStatus(order, 'ready')">
+                                    Listo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ready Orders -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h3>Listos ({{ orders.ready.length }})</h3>
+                </div>
+                <div class="card-body orders-column">
+                    <div *ngFor="let order of orders.ready" class="order-card mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Mesa {{ order.table_id }}</h5>
+                                <p class="card-text">
+                                    <small>Creada: {{ formatDate(order.created_at!) }}</small>
+                                </p>
+                                <div class="order-items">
+                                    <ul class="list-unstyled">
+                                        <li *ngFor="let item of order.orderItems">
+                                            {{ item.quantity }}x {{ item.product_name }}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <button class="btn btn-success" (click)="updateStatus(order, 'delivered')">
+                                    Entregar
+                                </button>
+                                <button class="btn btn-danger ml-2" (click)="updateStatus(order, 'cancelled')">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

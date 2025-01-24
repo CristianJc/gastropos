@@ -1,0 +1,39 @@
+<div class="main-content container">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-md-12">
+                <div class="card card-plain">
+                    <div class="card-header card-header-info">
+                        <h4 class="card-title mt-0"> Lista de Productos</h4>
+                        <p class="card-category"> </p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="">
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Precio</th>
+                                    <th>Categoría</th>
+                                    <th>Fecha Creación</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let product of products">
+                                        <td>{{ product.id }}</td>
+                                        <td>{{ product.name }}</td>
+                                        <td>{{ product.description }}</td>
+                                        <td>{{ product.price | currency }}</td>
+                                        <td>{{ product.category }}</td>
+                                        <td>{{ product.created_at | date:'short' }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

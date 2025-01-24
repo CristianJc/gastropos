@@ -1,0 +1,54 @@
+.orders-column {
+  height: calc(100vh - 200px);
+  overflow-y: auto;
+}
+
+.order-card {
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+
+  .order-items {
+    margin: 1rem 0;
+    max-height: 150px;
+    overflow-y: auto;
+  }
+
+  .total {
+    font-weight: bold;
+    margin: 0.5rem 0;
+  }
+}
+
+.btn {
+  margin-right: 0.5rem;
+}
+h2 {
+  text-align: center; /* Centra el texto horizontalmente */
+  font-size: 2.5rem; /* Hace el texto más grande (40px) */
+  margin: 1.5rem 0; /* Añade espacio arriba y abajo */
+  font-weight: bold; /* Hace el texto más grueso */
+}
+
+h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin: 1.5rem 0;
+  font-weight: bold;
+  color: #333; /* Color del texto */
+  text-transform: uppercase; /* Convierte el texto a mayúsculas */
+  letter-spacing: 2px; /* Espaciado entre letras */
+  /* Opcional: añadir una línea decorativa debajo */
+  border-bottom: 2px solid #4044ed;
+  padding-bottom: 0.5rem;
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}

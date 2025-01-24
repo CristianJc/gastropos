@@ -1,0 +1,109 @@
+<div class="container-fluid mt-4 container">
+    <div class="row">
+        <!-- Lista de Mesas -->
+        <div class="col-md-4">
+            <div class="tables-container">
+                <h2 class="title">Mesas</h2>
+                <div class="row">
+                    <div *ngFor="let table of tables" class="col-6 mb-3">
+                        <div class="card table-card" [class.selected]="table === selectedTable"
+                            [class.occupied]="table.status === 'occupied'" (click)="selectTable(table)">
+                            <div class="card-body text-center">
+                                <mat-icon>table_restaurant</mat-icon>
+                                <h5 class="card-title">Mesa {{ table.number }}</h5>
+                                <span class="badge" [class.bg-success]="table.status === 'free'"
+                                    [class.bg-danger]="table.status === 'occupied'"
+                                    [class.bg-warning]="table.status === 'reserved'">
+                                    {{ table.status }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Detalle de Mesa -->
+        <div class="col-md-8" *ngIf="selectedTable">
+            <div class="card">
+                <div class="card-header">
+                    <p class="title">Mesa {{ selectedTable.number }}</p>
+                </div>
+                <div class="card-body">
+                    <!-- Lista de Productos en la Mesa -->
+                    <div class="order-items mb-4">
+                        <h4>Productos en la Mesa</h4>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio</th>
+                                        <th>Subtotal</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of selectedTable.orderItems; let i = index">
+                                        <td>{{ getProductName(item.product_id) }}</td>
+                                        <td>
+                                            <input type="number" [(ngModel)]="item.quantity" min="1"
+                                                class="form-control form-control-sm w-75">
+                                        </td>
+                                        <td>{{ item.price | currency}}</td>
+                                        <td>{{ item.price * item.quantity | currency}}</td>
+                                        <td>
+                                            <button class="btn btn-danger btn-sm" (click)="removeProduct(i)">
+                                                <mat-icon>delete</mat-icon>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                                        <td colspan="2"><strong>{{ getTotal() | currency}}</strong></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Búsqueda y Agregar Productos -->
+                    <div class="add-products">
+                        <h4>Agregar Productos</h4>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" [(ngModel)]="searchQuery" (input)="filterProducts()"
+                                placeholder="Buscar producto">
+                            <span class="input-group-text">
+                                <mat-icon>search</mat-icon>
+                            </span>
+                        </div>
+
+                        <div class="product-list">
+                            <div class="row">
+                                <div *ngFor="let product of filteredProducts" class="col-md-6 mb-2">
+                                    <div class="card product-card" (click)="addProduct(product)">
+                                        <div class="card-body">
+                                            <h6 class="card-title">{{ product.name }}</h6>
+                                            <p class="card-text">{{ product.price | currency}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Botones de Acción -->
+                    <div class="action-buttons mt-4">
+                        <button class="btn btn-primary" (click)="saveOrder()"
+                            [disabled]="!selectedTable.orderItems?.length">
+                            Procesar Pago
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,130 @@
+<!-- sales-reports.component.html -->
+<div class="p-4 container sales">
+    <h2 class="text-2xl font-bold mb-4">Reportes de Ventas</h2>
+    <div class="container-fluid">
+
+        <!-- Filtros -->
+        <form [formGroup]="filterForm" class="mb-6 space-y-4">
+            <div class="flex space-x-4">
+                <div class="mb-3">
+                    <div class="flex-1">
+                        <label class="block text-sm font-medium mb-1">Tipo de Reporte</label>
+                        <select formControlName="reportType" class="w-full p-2 border rounded form-control">
+                            <option value="daily">Ventas del Día</option>
+                            <option value="date-range">Por Rango de Fechas</option>
+                            <option value="by-table">Por Mesa</option>
+                            <option value="detailed">Reporte Detallado</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="flex-1" *ngIf="showDateFilter()">
+                        <label class="block text-sm font-medium mb-1">Fecha</label>
+                        <input type="date" formControlName="date" class="w-full p-2 border rounded">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="flex-1" *ngIf="showDateRangeFilter()">
+                        <label class="block text-sm font-medium mb-1">Fecha Inicial</label>
+                        <input type="date" formControlName="startDate" class="w-full p-2 border rounded">
+                    </div>
+                </div>
+                <div class="mb-3">
+
+                    <div class="flex-1" *ngIf="showDateRangeFilter()">
+                        <label class="block text-sm font-medium mb-1">Fecha Final</label>
+                        <input type="date" formControlName="endDate" class="w-full p-2 border rounded">
+                    </div>
+                </div>
+            </div>
+            <button (click)="generateReport()"
+                class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 btn btn-primary">
+                Generar Reporte
+            </button>
+        </form>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-warning card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">content_copy</i>
+                        </div>
+                        <p class="card-category">Total Ventas</p>
+                        <h3 class="card-title">${{ totalSales | number:'1.2-2' }}
+                        </h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <!-- <i class="material-icons text-danger">warning</i>
+                            <a href="javascript:void(0)">Get More Space...</a> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-success card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">store</i>
+                        </div>
+                        <p class="card-category">Total Utilidad</p>
+                        <h3 class="card-title">${{ totalProfit | number:'1.2-2' }}</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <!-- <i class="material-icons">date_range</i> Last 24 Hours -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="card card-stats">
+                    <div class="card-header card-header-danger card-header-icon">
+                        <div class="card-icon">
+                            <i class="material-icons">local_mall
+                            </i>
+                        </div>
+                        <p class="card-category">Número de Facturas</p>
+                        <h3 class="card-title">{{ totalInvoices }}</h3>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <!-- <i class="material-icons">local_offer</i> Tracked from Github -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Gráficas -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div class="bg-white p-4 rounded-lg shadow">
+                <canvas id="salesChart"></canvas>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow">
+                <canvas id="productsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Tabla de Datos -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <table class="min-w-full">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th *ngFor="let header of tableHeaders"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            {{ header }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr *ngFor="let row of tableData">
+                        <td *ngFor="let header of tableHeaders"
+                            class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            {{ row[header.toLowerCase()] }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>

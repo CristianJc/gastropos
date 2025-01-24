@@ -1,0 +1,71 @@
+<div class="filters container">
+    <div class="filter">
+        <label for="estado" class="form-label">Estado de Factura:</label>
+        <select id="estado" [(ngModel)]="selectedEstado" (change)="obtenerFacturasPorEstado()" class="form-control">
+            <option value="">Seleccione un estado</option>
+            <option *ngFor="let estado of estados" [value]="estado">{{ estado }}</option>
+        </select>
+    </div>
+
+    <div class="filter">
+        <label for="fechaInicio" class="form-label">Fecha Inicio:</label>
+        <input type="date" id="fechaInicio" [(ngModel)]="fechaInicio" class="form-control" />
+    </div>
+
+    <div class="filter">
+        <label for="fechaFin" class="form-label">Fecha Fin:</label>
+        <input type="date" id="fechaFin" [(ngModel)]="fechaFin" class="form-control" />
+    </div>
+    <div class="action-buttons mt-4">
+
+        <button (click)="obtenerFacturasPorFecha()" class="btn btn-primary">Filtrar por fecha</button>
+        <button (click)="obtenerTodasLasFacturas()" class="btn btn-primary">Ver todas</button>
+    </div>
+</div>
+
+<div *ngIf="facturas.length > 0; else noFacturas" class="container">
+    <div class="main-content container">
+        <div class="container-fluid">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="card card-plain">
+                        <div class="card-header card-header-info">
+                            <h4 class="card-title mt-0"> Lista de Facturas</h4>
+                            <p class="card-category"> </p>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="">
+                                        <th>Factura ID</th>
+                                        <th>Estado</th>
+                                        <th>Fecha</th>
+                                        <th>Total</th>
+                                        <th>Utilidad</th>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of facturas">
+                                            <td>{{ item.id }}</td>
+                                            <td>{{ item.estado }}</td>
+                                            <td>{{ item.fecha_hora | date:'short' }}</td>
+                                            <td>{{ item.total | currency }}</td>
+                                            <td>{{ item.utilidad | currency }}</td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #noFacturas>
+    <p>No hay facturas disponibles.</p>
+</ng-template>

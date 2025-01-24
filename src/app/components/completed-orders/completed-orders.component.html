@@ -1,0 +1,119 @@
+<div class="completed-orders-container">
+    <mat-card class="summary-card">
+        <mat-card-header>
+            <mat-card-title>Resumen del Día</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <h3>Total Ventas</h3>
+                    <p>${{dailyTotal$ | async | number:'1.2-2'}}</p>
+                </div>
+                <div class="summary-item">
+                    <h3>Ganancias</h3>
+                    <p>${{dailyEarnings$ | async | number:'1.2-2'}}</p>
+                </div>
+                <div class="summary-item">
+                    <h3>Órdenes Completadas</h3>
+                    <p>{{completedOrders.length}}</p>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+
+
+    <div class="dashboard-container">
+        <!-- Left Panel - Orders List -->
+        <mat-card class="orders-list">
+            <mat-card-header>
+                <mat-card-title>Órdenes Completadas</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="orders-grid">
+                    <div *ngFor="let order of completedOrders" class="order-card"
+                        [class.selected]="selectedOrder?.id === order.id" (click)="selectOrder(order)">
+                        <div class="order-card-header">
+                            <div>
+                                <p class="order-number">Orden #{{order.id}}</p>
+                                <p class="table-number">Mesa {{order.table_number}}</p>
+                            </div>
+                            <p class="order-total">{{order.total_amount | currency}}</p>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <!-- Right Panel - Order Details -->
+        <mat-card class="order-details">
+            <mat-card-header>
+                <mat-card-title>Detalles de la Orden</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div *ngIf="selectedOrder; else noOrderSelected" class="details-content">
+                    <!-- Products List -->
+                    <div class="products-section">
+                        <h3>Productos</h3>
+                        <div class="products-list">
+                            <div *ngFor="let item of selectedOrder.orderItems" class="product-container">
+                                <div class="product-info">
+                                    <span class="product-name">{{item.product_name}}</span>
+
+                                </div>
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn" (click)="decreaseQuantity(item)">-</button>
+                                    <span class="quantity">{{item.quantity}}</span>
+                                    <button class="quantity-btn" (click)="increaseQuantity(item)">+</button>
+                                </div>
+                                <div class="price-section">
+                                    <span class="price">{{item.price * item.quantity | currency}}</span>
+                                    <button class="delete-btn">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Section -->
+                    <div class="payment-section">
+                        <div class="amounts-grid">
+                            <div>
+                                <label>Total</label>
+                                <p class="amount">{{selectedOrder.total_amount | currency}}</p>
+                            </div>
+                            <div>
+                                <label>Utilidad</label>
+                                <p class="amount">{{calculateProfit(selectedOrder) | currency}}</p>
+                            </div>
+                        </div>
+
+                        <div class="payment-input">
+                            <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Monto Recibido</mat-label>
+                                <input matInput type="number" [(ngModel)]="amountPaid"
+                                    (ngModelChange)="calculateChange()">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="change-amount">
+                            <label>Cambio</label>
+                            <p class="amount">{{change | currency}}</p>
+                        </div>
+
+                        <button mat-raised-button color="primary" class="bill-button" (click)="processPayment()">
+                            Facturar
+                        </button>
+                    </div>
+                </div>
+
+                <ng-template #noOrderSelected>
+                    <div class="no-order-message">
+                        Seleccione una orden para ver los detalles
+                    </div>
+                </ng-template>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
